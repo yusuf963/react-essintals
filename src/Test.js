@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 
 const SecretComponent = () => {
   return <h1>Here is a secret component appears</h1>;
@@ -15,13 +15,22 @@ console.log(second);
 const Test = () => {
   let [emotion, setEmotion] = useState("");
   let [count, setCount] = useState(0);
-  if (count < 9) {
-    emotion = "";
-  } else if (count === 9) {
-    emotion = "Hangury";
-  } else {
-    emotion = "Happy";
-  }
+  useEffect(() => {
+    console.log(`Its ${emotion} around here`);
+  }, [emotion]);
+  useEffect(() => {
+    console.log(`its number ${count} here`);
+  }, [count]);
+
+  const [clicked, toggle] = useReducer((clicked) => !clicked, false);
+
+  // if (count < 9) {
+  //   emotion = "";
+  // } else if (count === 9) {
+  //   emotion = "Hangury";
+  // } else {
+  //   emotion = "Happy";
+  // }
 
   return (
     <>
@@ -37,9 +46,15 @@ const Test = () => {
       <h1>{emotion}</h1>
 
       <h3>{count}</h3>
-      <button onClick={() => setCount(count + 1)}>Increas Counting</button>
+      <button onClick={() => setCount(count++)}>Increas Counting</button>
       <button onClick={() => setCount(0)}> Reset Count to zero</button>
-      <button onClick={() => setCount(count - 1)}>Decreas Counting</button>
+      <button onClick={() => setCount(count--)}>Decreas Counting</button>
+      <input
+        type="checkbox"
+        // value={checked}
+        onClick={toggle}
+      />
+      <p>{clicked ? "checked" : "not Checked"}</p>
     </>
   );
 };
